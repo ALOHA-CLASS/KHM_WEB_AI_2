@@ -1,0 +1,68 @@
+
+
+.container {
+    width: 700px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid orange;
+}
+
+.tab-box {
+    padding-bottom: 40px;
+    width: 600px;
+    background-color: white;
+    margin: 50px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* 탭 (label) */
+.tab-item {
+    display: block;
+    width: calc(100% / 3);
+    height: 50px;
+    float: left;
+    border-bottom: 1px solid #333;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+.tab-item:hover {
+    background-color: royalblue;
+    color: white;
+    cursor: pointer;
+}
+
+/* 라디오 버튼 숨김 */
+input[type='radio'] { display: none; }
+
+/* 내용영역 */
+.tab-content {
+    padding: 40px;
+    text-align: center;
+    overflow: hidden;
+    clear: both;
+    display: none;
+}
+
+.tab-content img {
+    width: 100%;
+}
+
+/* 
+    tab1 (label 1번) 을 선택
+    → 연결된 radio 버튼이 선택 (:checked)
+    → 형제자매요소인, 1번 내용을 선택
+*/
+#tab1:checked ~ #tab1-content,
+#tab2:checked ~ #tab2-content,
+#tab3:checked ~ #tab3-content {
+    display: block;
+}
+
+.tab-box input:checked + label {
+    background-color: #333;
+    color: white;
+}

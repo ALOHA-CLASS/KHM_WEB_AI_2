@@ -1,0 +1,25 @@
+
+.btn {
+    border: none;
+    padding: 14px 28px;
+    cursor: pointer;
+    color: white;
+}
+
+.success { background-color: #04aa6d; }
+.success:hover { background-color: #46a049; }
+
+.info { background-color: #2196f3; }
+.info:hover { background-color: #0b7dda; }
+
+.warning { background-color: #ff9800; }
+.warning:hover { background-color: #e68a00; }
+
+.danger { background-color: #f44366; }
+.danger:hover { background-color: #da190b; }
+
+.default { background-color: #e7e7e7; color: black; }
+.default:hover { background-color: #ddd; }
+
+
+ 

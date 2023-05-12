@@ -1,0 +1,84 @@
+
+* { margin: 0; padding: 0; box-sizing: border-box;}
+
+/* reset */
+a { text-decoration: none; color: black; }
+ul { list-style-type: none; }
+
+header {
+    width: 100%;
+    border: 1px solid black;
+}
+
+/* util */
+.util {
+    padding: 10px;
+    background-color: #DCE6FF;
+}
+.util .util-menu {
+    float: right;
+}
+
+.util::after { display: block; content: ''; clear: both; }
+
+.util .util-menu li {
+    display: inline-block;
+    margin: 0 14px;
+}
+.util .util-menu li a {}
+
+/* menu */
+.menu {
+    position: relative;
+    height: 80px;
+}
+.menu .menu-left {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.menu .menu-left a {
+    font-size: 30px;
+}
+.menu .menu-left a i {}
+
+.menu .menu-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.menu .menu-center nav {}
+.menu .menu-center nav ul {}
+.menu .menu-center nav ul li {
+    display: inline-block;
+    height: 80px;
+    line-height: 80px;
+    padding: 0 32px;
+}
+.menu .menu-center nav ul li a {
+    font-weight: bold;
+}
+.menu .menu-center nav ul li:hover{
+    background-color: #668ef6;
+}
+
+.menu .menu-right {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.menu .menu-right a {
+    font-size: 30px;
+}
+.menu .menu-right a i {}
+
+
+/* 반응형 */
+/* 디바이스 가로 크기 960px 이하인 경우 */
+@media screen and (max-width: 960px) {
+
+    nav { display: none; }
+}

@@ -1,0 +1,66 @@
+
+.container {
+    position: relative;
+    margin: 0 auto;
+    width: 1400px;
+    border: 3px dashed orange;
+    box-sizing: border-box;
+}
+
+.inner { text-align: center; }
+
+.box { 
+    display: inline-block;
+    position: relative;
+    width: 300px;
+    border: 1px solid #ddd;
+    padding: 30px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+.item {
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    background-color: royalblue;
+    box-sizing: border-box;
+    transition: all 1s;
+}
+
+.absolute {
+    position: absolute;
+    background-color: white;
+    border: 2px dashed gray;
+    top: 30px;
+    left: 75px;
+    z-index: -1;
+}
+
+/* 
+    rotate(x, y)
+    +deg : 시계방향으로 지정 각도만큼 회전
+    -deg : 반시계방향으로 지정 각도만큼 회전
+*/
+
+.rotate1:hover { transform: rotate(45deg); }
+.rotate2:hover { transform: rotateX(45deg); }
+.rotate3:hover { transform: rotateY(45deg); }
+.rotate4:hover { transform: rotateZ(45deg); }
+
+
+.rotate5:hover { transform: rotate(-45deg); }
+.rotate6:hover { transform: rotateX(-45deg); }
+.rotate7:hover { transform: rotateY(-45deg); }
+.rotate8:hover { transform: rotateZ(-45deg); }
+
+
+.rotate9:hover { 
+    transform: rotateZ(45deg); 
+    /* 요소 변형 중심 축 위치 설정 */
+    transform-origin: top left;
+}
+
+
+
+

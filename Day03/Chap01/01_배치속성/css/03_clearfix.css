@@ -1,0 +1,33 @@
+
+.container {
+    position: relative;
+    width: 1024px;
+    min-height: 500px;
+    border: 5px dashed orange;
+    margin: auto;
+}
+
+.item {
+    width: 300px;
+    height: 200px;
+}
+
+.inner::after {
+    display: block;
+    content: '';
+    clear: both;
+    /* 여기서 clear 적용되서, next 에 영향을 미치지 않는다 */
+}
+
+h1 { text-align: center; }
+
+
+.left { float: left; background-color: pink; }
+.right { float: right; background-color: lightblue; }
+.next { background-color: cornflowerblue; }
+
+.clear-left { clear: left; }
+.clear-right { clear: right; }
+.clear-both { clear: both; }
+
+

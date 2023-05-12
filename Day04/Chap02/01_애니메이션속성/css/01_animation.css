@@ -1,0 +1,39 @@
+
+* { margin: 0; padding: 0; }
+
+#ball {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;     /* 원모양 */
+    background-color: royalblue;
+    /* 애니메이션 */
+    animation-name: ball;                   /* 애니메이션 이름 */
+    animation-duration: 3s;                 /* 재생시간 */
+    animation-timing-function: linear;      /* 타이밍 함수 */
+    animation-iteration-count: infinite;           /* 반복 횟수 */
+}
+
+#ball h1 {
+    line-height: 200px;
+    color: white;
+    text-align: center;
+}
+
+/* 애니메이션의 변경지점을 지정하는 속성 */
+@keyframes ball {
+    /* 시작지점 - from or 0% */
+    /* 종료지점 - to or 100% */
+    0% { 
+        left: 0; 
+    }
+
+    50% {
+        left: 1000px;
+        transform: rotate(360deg);
+    }
+
+    100% { 
+        left: 0; 
+    }
+} 

@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+/* 
+    전체 선택자를 이용. 모든 선택자의 margin과 padding을 0으로 지정
+    : 요소가 갖는 기본 여백을 제거
+ */
+/* TODO: 여기에 작성해보세요 */
+* { margin: 0; padding: 0; }
+
+body {
+    background-color: cornflowerblue;
+}
+
+/* tag.css 파일의 코드 */
+
+/* TODO: 여기에 작성해보세요 */
+* { margin: 0; padding: 0; }
+
+/* 
+    태그 선택자 
+    : 태그의 이름으로 요소를 선택하는 방식
+*/
+header {
+    height: 85px;
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+header h1 {
+    float: left;        /* fl */
+    font-size: 1.8rem;  /* fz1.8rem */
+    /* 
+        rem : html(루트) 요소에 대한 배율로 적용
+    */
+}
+
+header ul {
+    float: right;           /* flr */
+    list-style-type: none;  /* lstn */
+}
+
+header ul li {
+    display: inline-block;  /* dib */
+}
+
+article {
+    min-height: 500px;      /* mh500 */
+}
+
+article section {
+    float: right;       /* flr */
+    width: 200px;       /* w200 */
+    background-color: #fedd31;  /* backco */
+    padding: 20px;      /* p20 */
+    text-align: center; /* tac */
+}
+
+footer {
+    height: 10px;       /* h10 */
+    line-height: 10px;  /* lh10px */
+    background-color: #c0dce7;  /* backco */
+    text-align: center; /* tac */
+    padding: 20px;      /* p20 */
+}
+
+
+
+/* 클래스 선택자 */
+/* TODO: 여기에 작성해보세요 */
+.container {
+    width: 900px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+
+
+/* 종속선택자 */
+/* TODO: 여기에 작성해보세요 */
+h1.logo {
+    background: url(../img/logo.png) no-repeat center left;
+    background-size: cover;
+    width: 220px;
+    height: 70px;
+    margin-left: 20px;
+    text-indent: -9999px;
+}
+
+ul { list-style-type: none; }
