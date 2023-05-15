@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자료형 변환</title>
+    <script>
+        // ? --> 숫자 자료형        : Number()
+        // ? --> 문자열 자료형      : String()
+        // ? --> 불 자료형          : Boolean()
+
+        let strTen = '10'
+        let strResult = strTen + 20     // 1020
+        console.log('strResult : ' + strResult)
+
+        let ten = Number(strTen)
+        let result = ten + 20                   // 30
+        console.log('result : ' + result)       
+
+        let strFive = String(5)
+        let fiveResult = strFive + 55           // 555
+        console.log('fiveResult : ' + fiveResult)
+
+        let strTrue = 'true'
+        let boolFalse = !Boolean(strTrue) 
+        console.log('boolFalse : ' + boolFalse)
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

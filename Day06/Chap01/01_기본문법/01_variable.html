@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>변수</title>
+    <!-- 자바스크립트 코드는 <script> 태그 안에서 작성 -->
+    <script>
+        // 변수 선언
+        // var      : 변수 선언 키워드
+        //          - 1995~2015년 까지의 자바스크립트 문법
+        // let      : 변수 선언 키워드
+        //          - 2015년 이후의 자바스크립트 문법
+        // const    : 상수 선언 키워드
+        // 변수     : 데이터를 저장하는 공간
+        // 상수     : 한 번 초기화한 값을 변경하지 않는 메모리
+
+        const p1 = 10;
+        const p2 = 20;
+        let sum = p1 + p2;
+
+        // 자바스크립트에서는 문장구분 기호 ; 을 생략할 수 있다
+
+        var a = 100
+        var b = 200
+        var result = a + b
+
+        // var
+        // - 정의된 변수 중복선언 허용
+        // - 변수의 사용범위을 전역범위, 함수범위만 제공
+        var a = 100
+
+        // let
+        // - 정의된 변수 중복선언 불가
+        // - 변수의 사용범위를 전역범위, 함수범위, 블록범위{  } 까지 제공
+        let x = 1000
+        let y = 2000
+        let total = x + y
+        // let x = 1111        // 에러
+        
+        // console.log() : 개발자도구 콘솔 탭에 로그를 출력하는 함수
+        // * log 만 쳐도 자동완성 할 수 있다
+        console.log('sum : ' + sum)
+        console.log('result : ' + result)
+        console.log('total : ' + total)
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

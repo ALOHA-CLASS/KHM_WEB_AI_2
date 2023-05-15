@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>if ~ else if ~ else</title>
+    <script>
+
+        let a = prompt('정수를 입력해주세요')
+
+        // if ~ else if 문
+        // : 가장 먼저 만나는 조건을 만족하면,
+        //   다른 조건문은 검사하지 않는다.
+        if( a % 2 == 0 ) {
+            alert('2의 배수입니다')
+        } 
+        else if( a % 3 == 0 ) {
+            alert('3의 배수입니다')
+        } 
+        else {
+            alert('2 또는 3의 배수가 아닙니다')
+        }
+        
+        // 비교
+        // : if ~ else if 문과는 다르게, 단독 if 문을 연속해서 사용하면,
+        //   조건을 만족하면 모두 실행된다
+        if( a % 2 == 0 ) {
+            alert('2의 배수입니다')
+        } 
+        if( a % 3 == 0 ) {
+            alert('3의 배수입니다')
+        } 
+        </script>
+</head>
+<body>
+    
+</body>
+</html>

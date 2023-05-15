@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>switch</title>
+    <script>
+        const menuNo = Number( prompt('메뉴 번호를 입력해주세요') )
+        let menu = ''
+
+        switch (menuNo) {
+            case 1:
+                menu = '메뉴01'
+                break;
+            case 2:
+                menu = '메뉴02'
+                break;
+            case 3:
+                menu = '메뉴03'
+                break;
+            default:
+                alert('메뉴번호가 존재하지 않습니다')
+                break;
+        }
+        if( menuNo >= 1 && menuNo <= 3 )
+            alert(`${menu} 이(/가) 주문되었습니다.`)
+        else 
+            alert('주문에 실패하였습니다.')
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
