@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로토타입</title>
+    <script>
+        // 프로토타입
+        // - 모든 객체가 프로토타입이라는 객체를 갖는다
+        // - 해당 객체가 상속되는 정보를 제공하는 개체
+
+        // 프로토타입 생성
+        // - 객체 생성자 함수를 정의하여 프로토타입을 생성한다
+        function Person(name, age) {
+            this.name = name
+            this.age = age
+        }
+
+        // 객체 생성
+        let person = new Person('김휴먼', 20)
+
+        document.write(person.name + ' : ')
+        document.write(person.age + '<br>')
+
+        // 객체 변수(프로퍼티) 접근
+        document.write(`이름 : ${person.name} <br>`)
+        document.write(`나이 : ${person["age"]} <br>`)
+
+        // 객체 변수(프로퍼티) 삭제
+        // - 프로퍼티 값과 그 자체도 삭제(해당 인스턴스만)
+        delete person.age
+
+        document.write(`나이 : ${person["age"]} <br>`)
+
+
+        let person2 = new Person('김휴먼', 20)
+        document.write(`이름2 : ${person2.name} <br>`)
+        document.write(`나이2 : ${person2["age"]} <br>`)
+
+        // 객체 생성 후, 메소드 추가
+        person2.printInfo = function() {
+            return this.name + '(' + this.age + ')'
+        }
+
+        // 객체 생성 후, 프로퍼티 추가
+        person2.title = '새로운 프로퍼티'
+
+        document.write(person2.printInfo() + '<br>')
+        document.write('title : ' + person2.title)
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery  시작하기</title>
+
+    <!-- jQuery 라이브러리 파일로 포함하기 -->
+    <script src="js/jquery-3.7.0.min.js"></script>
+
+    <!-- 
+        CDN (Content Delivery Network)
+        : 컨텐츠를 빠르게 다운 받을 수 있도록 해주는 분산된 서버
+    -->
+    <!-- jQuery CDN 방식으로 포함하기 -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <script>
+
+        /* 
+            JavaScript - 문서준비 이벤트
+            document.addEventListner('DOMContentLoaded', function() {
+
+            })
+        */
+
+        /*
+            jQuery - 문서준비 이벤트
+            $(document).ready( function() {
+            })
+        */
+        
+        // 축약형 ↓
+        $(function() {
+            alert('Hello jQuery~!')
+            $('h1').text('Hello jQuery~!')
+        })
+
+    </script>
+
+</head>
+<body>
+    <h1></h1>
+</body>
+</html>
