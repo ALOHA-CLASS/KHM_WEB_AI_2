@@ -1,0 +1,243 @@
+
+ /* 헤더 */
+ header {
+   border-bottom: 1px solid black;
+ }
+ header .util {}
+ header .menu {
+    width: 960px;
+    margin: 0 auto;
+ }
+ header .menu nav {
+    height: 60px;
+ }
+ header .menu nav ul  {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* column-gap: 50px; */
+    height: 100%;
+ }
+ header .menu nav ul li { 
+   position: relative;
+   height: 100%; 
+   overflow: hidden;
+}
+ /* header .menu nav ul li a {
+    display: inline-block;
+    min-width: 100px;
+    height: 100%;
+    line-height: 60px;
+    border: 1px solid black;
+    text-align: center;
+ }
+
+ header .menu nav ul li a:hover {
+    background-color: black;
+    color: white;
+ } */
+
+header .menu nav ul li a {
+   display: inline-block;
+   min-width: 100px;
+   height: 100%;
+   line-height: 60px;
+   position: relative;
+   z-index: 1;
+   color: black;
+   border: 1px solid black;
+   text-align: center;
+   mix-blend-mode: difference;
+}
+
+header .menu nav ul li:hover a {
+   color: white;
+   transition: color 0.1s 0.05s;
+}
+
+header .menu nav ul li::before {
+   position: absolute;
+   content: "";
+   width: 100%;
+   height: 100%;
+   background-color: black;
+   color: white;
+   top: 100%;
+   left: 0;
+   z-index: -1;
+   transition: all 0.4s;
+}
+
+
+header .menu nav ul li:hover::before  {
+   top: 0;
+}
+
+
+
+ /* 메인 */
+ .container {
+   width: 960px;
+   margin: 0 auto;
+ }
+
+ .main {}
+ .main .inner { padding: 50px;}
+ .main h2 { font-size: 32px; margin-bottom: 20px; }
+ .main ul { font-size: 20px; margin-bottom: 20px; }
+ .main ul li {}
+
+ .btn-box {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ .btn-box .item {
+   display: flex;
+   align-items: center;
+   column-gap: 10px;
+ }
+
+ .btn { 
+   display: inline-block;
+   min-width: 120px; 
+   min-height: 48px;
+   line-height: 48px;
+   background-color: royalblue;
+   color: white;
+   text-align: center;
+}
+ 
+/* 제목 영역 */
+.main-title { margin-bottom: 40px; }
+.main-title h1 { font-size: 30px; }
+.main-title p { font-size: 20px; }
+
+/* 테이블 - (게시글목록) */
+.board {
+   width: 100%;
+   border-top: 2px solid black;
+   border-bottom: 2px solid black;
+   margin: 30px 0;
+   border-collapse: collapse;
+
+}
+.board tr {
+   border-bottom: 1px solid gray;
+   text-align: center;
+}
+.board tr:hover {
+   background-color: lightblue;
+   font-weight: bold;
+}
+
+.board .num { width: 10%; }
+.board .title { width: 40%; max-width: 340px; }
+.board .writer { width: 20%; max-width: 160px; }
+.board .date { width: 20%; }
+.board .view { width: 10%; }
+
+.board tbody .title { text-align: left; }
+
+/* 줄 넘침 방지 (...) */
+.txt-over { 
+   display: inline-block;
+   width: 95%;
+   max-height: 32px;
+   overflow: hidden;
+   text-overflow: ellipsis;   /* 말줄임(...) */
+   white-space: nowrap;
+}
+
+/* 읽기 */
+.board .label { width: 20%; }
+.board .data { 
+   width: 80%; 
+   text-align: left; 
+}
+
+.board thead { font-weight: bold; }
+
+.board td {
+   display: inline-block;
+   padding: 15px 0;
+   font-size: 1.2rem;
+}
+
+/* 텍스트 입력 */
+.input-text {
+   width: 90%;
+   font-size: 32px;
+   margin: 0 10px;
+   border-radius: 5px;
+   padding-left: 10px;
+   outline: none;
+}
+
+/* 유효성 검사 에러 시 */
+.input-text.error {
+   border-color: red;
+}
+
+.input-textarea {
+   resize: none;
+   width: 90%;
+   font-size: 32px;
+   margin: 0px 10px;
+   border-radius: 5px;
+   outline: none;
+}
+
+.input-text:focus,
+.input-textarea:focus {
+   border: 2px solid royalblue;
+   box-shadow: 3px 3px 5px rgba(100,100,200,0.3);
+}
+
+.input-text.error:focus {
+   border-color: red;
+}
+
+/* 검색창 */
+.input-search {
+   min-height: 48px;
+   font-size: 18px;
+   padding-left: 8px;
+}
+
+
+/* 에러 메시지 */
+.error-msg {
+   color: red;
+   padding-left: 12px;
+   font-size: 12px;
+}
+
+/* 페이지네이션 */
+.pagination {
+   margin: 40px auto;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+}
+.pagination a {
+   display: inline-block;
+   width: 32px;
+   height: 32px;
+   line-height: 32px;
+   border: 1px solid gray;
+}
+.pagination .page-no {
+   font-size: 18px;
+}
+.pagination .page-arrow {
+   color: gray;
+}
+
+.pagination a.on,
+.pagination a:hover {
+   background-color: royalblue;
+   font-weight: bold;
+   color: white;
+} 

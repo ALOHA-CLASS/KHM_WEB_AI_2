@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- jQuery ui css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/theme.min.css">
+</head>
+<body>
+    <header>
+        <!-- 로그인 | 회원가입 -->
+        <div class="util"></div>
+
+        <!-- 메인 메뉴 -->
+        <div class="menu">
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="list.html">Board</a></li>
+                    <li><a href=".html">Gallery</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="main container">
+        <div class="inner">
+            <!-- 제목 영역 -->
+            <div class="main-title">
+                <h1>게시글 목록</h1>
+                <p>커뮤니티 게시글 데이터를 조회합니다.</p>
+            </div>
+
+            <div class="btn-box">
+                <div class="item">
+                    <select name="search-type" id="search-type" class="input-search">
+                        <option value="1">제목</option>
+                        <option value="2">내용</option>
+                        <option value="3">제목+내용</option>
+                        <option value="4">작성자</option>
+                    </select>
+                    <input type="text" name="keyword" id="keyword" class="input-search"
+                           autocomplete="on">
+                    <a href="javascript:;" class="btn" id="btn-search">검색</a>
+                </div>
+                <div class="item">
+                    <a href="insert.html" class="btn">글쓰기</a>
+                </div>
+            </div>
+    
+            <!-- 게시글 목록 -->
+            <table class="board">
+                <thead>
+                    <tr>
+                        <td class="num">번호</td>
+                        <td class="title">제목</td>
+                        <td class="writer">작성자</td>
+                        <td class="date">등록일자</td>
+                        <td class="view">조회수</td>
+                    </tr>
+                </thead>
+                <tbody id="board-data">
+                    <tr>
+                        <td colspan="5">조회된 데이터가 없습니다.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <a href="javascript:;" class="page-arrow" id="first">&laquo;</a>
+                <a href="javascript:;" class="page-arrow" id="prev">&lsaquo;</a>
+                <!-- 페이지 번호 목록 -->
+                <div class="page-list">
+
+                </div>
+                <a href="javascript:;" class="page-arrow" id="next">&rsaquo;</a>
+                <a href="javascript:;" class="page-arrow" id="last">&raquo;</a>
+            </div>
+
+
+            <div class="btn-box">
+                <a href="../index.html" class="btn">메인</a>
+                <a href="insert.html" class="btn">글쓰기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="../js/jquery-3.7.0.min.js"></script>
+    <!-- jQuery UI-->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <script>
+
+        // 페이지 관련 변수
+        let page = 1        // 페이지 번호
+        let rows = 10       // 페이지당 게시글 수
+        let pageCount = 10  // 노출 페이지 개수
+        let totalCount = 0  // 전체 게시글 수
+
+        /* 게시글 목록 - 데이터 요청 */
+        // getList()
+        initPage()
+        getPageList(page, rows)
+
+        // 페이지 번호 갱신
+        function initPage() {
+
+            let data = {
+                page : page,
+                rows : rows,
+                pageCount : pageCount,
+            }
+
+            const url = 'http://192.168.0.200:8080/api/board/pagination'
+            $.ajax({
+                url : url,
+                type : 'get',
+                data : data,
+                success : function(response) {
+                    let pageInfo = response
+                    // console.log(pageInfo)
+
+                    if( pageInfo == null ) 
+                        return
+
+                    let start = pageInfo.startPage
+                    let end = pageInfo.endPage
+                    let first = pageInfo.firstPage
+                    let last = pageInfo.lastPage
+                    let prev = pageInfo.prev
+                    let next = pageInfo.next
+
+                    $('#first').attr('data', first)
+                    $('#last').attr('data', last)
+                    $('#prev').attr('data', prev)
+                    $('#next').attr('data', next)
+
+                    let pagination = ''
+                    for(let i = start ; i <= end ; i++) {
+                        let a = `<a href='javascript:;' class='page-no' data='${i}'>${i}</a>`
+                        pagination += a
+                    } 
+
+                    $('.page-list').html(pagination)
+                    $('.page-no').removeClass('on')
+                    $('.page-no[data=' + page + ']').addClass('on')
+
+                    initPageClick()     // 페이지 번호 추가 후, 이벤트 생성
+
+                },
+                error : function(error) {
+
+                }
+            })
+            
+        }
+
+        // 게시글 목록 요청
+        function getList() {
+
+            const url = 'http://192.168.0.200:8080/api/board'
+            $.ajax({
+                url : url,
+                type : 'get',
+                success : function(response) {
+                    let boardList = response
+
+                    displayList( boardList )
+                },
+                error : function(error) {
+
+                }
+            })
+        }
+
+        // 게시글 목록 요청 - 페이징
+        function getPageList(page, rows) {
+
+            const url = 'http://192.168.0.200:8080/api/board/page'
+            let data = {
+                'page' : page,         // 페이지
+                'rows' : rows          // 페이지당 글 개수
+            }
+            $.ajax({
+                url : url,
+                type : 'get',
+                data : data,
+                success : function(response) {
+                    let boardList = response
+
+                    displayList( boardList )
+                    
+                    // 여기서 부터...
+                },
+                error : function(error) {
+
+                }
+            })
+        }
+
+        // 검색 버튼 - 클릭 이벤트
+        $('#btn-search').on('click', function() {
+            search()
+        })
+
+        let autoFlag = false
+        // 검색창에서 - 키 입력 이벤트
+        $('#keyword').on('keyup', function(event) {
+
+            console.log( event.keyCode )
+
+            // 연관 키워드 자동완성
+            // ↑,↓ 방향키 입력은 제외  
+            // ... 추가 로직 필요
+            if( event.keyCode != 38 && event.keyCode != 40 )
+                autoComplete()
+
+            // 바로 검색
+            // search()
+
+            // 엔터
+            if( event.keyCode == 13 ) {
+                search()
+            }
+
+        })
+
+        // 연관 키워드 요청
+        function autoComplete() {
+
+            let keyword = $('#keyword').val()
+
+            let data = {
+                'keyword' : keyword,
+            }
+
+            const url = 'http://192.168.0.200:8080/api/board/keyword'
+            $.ajax({
+                url : url,
+                type : 'post',
+                data : JSON.stringify(data),
+                dataType : "json",
+                contentType : 'application/json',
+                success : function(response) {
+                    let keywordList = response
+
+                    let list = []
+                    for (let i = 0; i < keywordList.length; i++) {
+                        const board = keywordList[i];
+                        const title = board.title
+                        list.push(title)
+                    }
+                    $('#keyword').autocomplete('option', 'source', list)
+
+                    console.log(keywordList)
+                },
+                error : function(error) {
+
+                }
+            })
+
+        }
+
+        // 검색 요청
+        function search() {
+            // 검색 조건    (search-type)
+            // 검색어       (keyword)
+            let searchType = $('#search-type').val()
+            let keyword = $('#keyword').val()
+
+            let data = {
+                'searchType' : searchType,
+                'keyword' : keyword,
+            }
+
+            const url = 'http://192.168.0.200:8080/api/board/list'
+            $.ajax({
+                url : url,
+                type : 'post',
+                data : JSON.stringify(data),
+                dataType : "json",
+                contentType : 'application/json',
+                success : function(response) {
+                    let boardList = response
+
+                    displayList( boardList )
+                },
+                error : function(error) {
+
+                }
+            })
+
+        }
+
+        // 게시글 목록 갱신
+        function displayList( boardList ) {
+
+            if( boardList.length == 0 ) {
+                console.log(`조회된 데이터가 없습니다.`);
+                return
+            }
+
+            let boardData = ''
+            for( let i = 0; i < boardList.length ; i++) {
+                const boardNo = boardList[i].boardNo
+                const title = `<a href='read.html?boardNo=${boardNo}'>${boardList[i].title}</a>`
+            
+                const date = new Date(boardList[i].regDate);
+                const regDate = date.toISOString().split("T")[0];
+
+
+                let tr = `<tr>
+                            <td class='num'>${boardList[i].boardNo}</td>
+                            <td class='title'><span class="txt-over">${title}</span></td>
+                            <td class='writer'><span class="txt-over">${boardList[i].writer}</span></td>
+                            <td class='date'>${regDate}</td>
+                            <td class='view'>${boardList[i].views}</td>
+                            </tr>   
+                            `
+                boardData += tr
+            }
+            $('#board-data').html(boardData)
+
+        }
+
+        // 연관 키워드 자동완성
+        $('#keyword').autocomplete({
+            source : [],
+        })
+
+
+        // 페이지 번호 클릭 이벤트
+        function initPageClick() {
+
+            $('.page-no, .page-arrow').on('click', function() {
+                let clickedPage = $(this).attr('data')
+                page = clickedPage
+                getPageList(page, rows)
+                initPage()
+                // $('.page-no').removeClass('on')
+                // $('.page-no[data=' + page + ']').addClass('on')
+            })
+
+            // $('.page-arrow').on('click', function() {
+            //     let clickedPage = $(this).attr('data')
+            //     page = clickedPage
+            //     getPageList(page, rows)
+            //     $('.page-no').removeClass('on')
+            //     $(this).addClass('on')      // 수정필요
+            // })
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 쓰기</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <!-- 로그인 | 회원가입 -->
+        <div class="util"></div>
+
+        <!-- 메인 메뉴 -->
+        <div class="menu">
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="list.html">Board</a></li>
+                    <li><a href=".html">Gallery</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="main container">
+        <div class="inner">
+            <!-- 제목 영역 -->
+            <div class="main-title">
+                <h1>게시글 쓰기</h1>
+            </div>
+    
+            <!-- 게시글 목록 -->
+            <table class="board">
+                <tr>
+                    <td class="label">제목</td>
+                    <td class="data">
+                        <input type="text" name="title" id="title" class="input-text">
+                        <p id="title-error" class="error-msg"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">작성자</td>
+                    <td class="data">
+                        <input type="text" name="writer" id="writer" class="input-text">
+                        <p id="writer-error" class="error-msg"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">내용</td>
+                    <td class="data">
+                        <textarea name="content" id="content" cols="30" rows="10" class="input-textarea"></textarea>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="btn-box">
+                <div class="item">
+                    <a href="list.html" class="btn">목록</a>
+                </div>
+                <div class="item">
+                    <a href="javascript:;" class="btn" id="btn-insert">등록</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="../js/jquery-3.7.0.min.js"></script>
+    <script>
+
+        function validCheck(id, label, length=-1) {
+
+            // NULL 체크
+            let element = $('#' + id)
+            let value = element.val()
+            if( value == '' || value == null ){
+                element.addClass('error')
+                $('#' + id +'-error').text(`${label}(을/를) 입력해주세요`)
+                element.focus()
+                return false
+            }
+
+            // 문자열 길이 확인
+            if( length != -1 && length > 60 ) {
+                element.addClass('error')
+                $('#' + id + '-error').text(`${label}은 ${length}자 이하로 작성 가능합니다`)
+                element.focus()
+                return false
+            }
+            return true
+        }
+
+        /*
+            유효성 검사
+            * 제목 (필수, 60자이하)
+            * 작성자 (필수, 20자이하)
+        */  
+        function isValid() {
+
+            // error 표시 갱신
+            $('.input-text').removeClass('error')
+            $('.error-msg').text('')
+
+            let check1 = validCheck('title', '제목', 60)
+            let check2 = validCheck('writer', '작성자', 20)
+
+            if( check1 && check2 )
+                return true
+
+            return false
+
+            // // 1. 제목을 가져와서, null, '' 인지 확인 --> false
+            // let title = $('#title').val()
+            // if( title == '' || title == null ){
+            //     $('#title').addClass('error')
+            //     // alert('제목을 입력해주세요')
+            //     $('#title-error').text('제목을 입력해주세요')
+            //     $('#title').focus()
+            //     return false
+            // }
+            // // 2. 제목이 60자 초과인지 확인 --> false
+            // if( title.length > 60 ) {
+            //     $('#title').addClass('error')
+            //     // alert('제목은 60자 이하로 작성 가능합니다')
+            //     $('#title-error').text('제목은 60자 이하로 작성 가능합니다')
+            //     $('#title').focus()
+            //     return false
+            // }
+            
+            // 3. 작성자를 가져와서, null, '' 인지 확인 --> false
+            // let writer = $('#writer').val()
+            // if( writer == '' || writer == null ) {
+            //     $('#writer').addClass('error')
+            //     // alert('작성자를 입력해주세요')
+            //     $('#writer-error').text('작성자를 입력해주세요')
+            //     $('#writer').focus()
+            //     return false
+            // }
+            
+            // // 4. 작성자가 20자 초과인지 확인   --> false
+            // if( writer.length > 20 ) {
+            //     $('#writer').addClass('error')
+            //     // alert('작성자는 20자 이하로 작성 가능합니다')
+            //     $('#writer-error').text('작성자는 20자 이하로 작성 가능합니다')
+            //     $('#writer').focus()
+            //     return false
+            // }
+            // true
+            // return true
+        }
+
+        // 등록 버튼 - 클릭 이벤트
+        $('#btn-insert').on('click', function() {
+
+            // 유효성 검사
+            if( !isValid() ) {
+                return
+            }
+
+            // 등록 요청
+            const url = 'http://192.168.0.200:8080/api/board'
+            let title = $('#title').val()
+            let writer = $('#writer').val()
+            let content = $('#content').val()
+
+            // 유효성 검사
+            if( title.length > 20 ) {
+                alert('제목은 20 자까지 가능합니다.')
+                return
+            }
+
+            let data = {
+                'title' : title,
+                'writer' : writer,
+                'content' : content
+            }
+
+            $.ajax({
+                url : url,
+                type : 'post',
+                data : JSON.stringify(data),
+                contentType     : 'application/json',
+                success : function(response) {
+                    // alert(response)
+                    if( response == 'SUCCESS' ) {
+                        alert('등록이 완료되었습니다.')
+                        // 목록 페이지로 이동
+                        location.href = 'list.html'
+                    }
+                    
+                },
+                error : function(error) {
+
+                }
+            })
+
+        })
+
+    </script>
+</body>
+</html>
