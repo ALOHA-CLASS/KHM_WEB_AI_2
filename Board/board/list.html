@@ -340,6 +340,10 @@
         // 페이지 번호 클릭 이벤트
         function initPageClick() {
 
+            
+            // 화살표 버튼에 이벤트 추가 계속 쌓임 --> arrow 도 갱신해서 해줄 것
+            // 다시 그리던가
+            // 이벤트가 한 번만 발생되게 할 것
             $('.page-no, .page-arrow').on('click', function() {
                 let clickedPage = $(this).attr('data')
                 page = clickedPage
