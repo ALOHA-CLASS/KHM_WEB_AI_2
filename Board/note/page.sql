@@ -14,9 +14,9 @@ FROM (
 WHERE no <= 10
 ;
 
--- page : 2
--- 페이지당 게시글 수 : 10
--- 가져올 데이터    : 11 ~ 20 번 게시글
+-- page               : 2
+-- 페이지당 게시글 수  : 10
+-- 가져올 데이터       : 11 ~ 20 번 게시글
 SELECT *
 FROM (
     SELECT ROWNUM no
@@ -27,17 +27,11 @@ FROM (
           ,upd_date
           ,views
     FROM board
-    ORDER BY reg_date DESC
+    ORDER BY board_no DESC, reg_date DESC
 ) b
 WHERE no >= 11 
   AND no <= 20
 ;
-
-
-
-
-
-
 
 
 
@@ -64,3 +58,9 @@ FROM (
 WHERE no > ((page-1) * count)  -- 시작 글번호  
   AND no <= (page * count)      -- 끝 글번호   
 ;
+
+
+-- 검색어를 포함하는 데이터 개수
+SELECT COUNT(*)
+FROM board
+WHERE title LIKE '%keyword%'

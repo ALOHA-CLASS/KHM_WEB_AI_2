@@ -18,8 +18,8 @@
             <nav>
                 <ul>
                     <li><a href="../index.html">Home</a></li>
-                    <li><a href="list.html">Board</a></li>
-                    <li><a href=".html">Gallery</a></li>
+                    <li><a href="../board/list.html">Board</a></li>
+                    <li><a href="../gallery/list.html">Gallery</a></li>
                 </ul>
             </nav>
         </div>
@@ -32,29 +32,40 @@
                 <h1>게시글 쓰기</h1>
             </div>
     
-            <!-- 게시글 목록 -->
-            <table class="board">
-                <tr>
-                    <td class="label">제목</td>
-                    <td class="data">
-                        <input type="text" name="title" id="title" class="input-text">
-                        <p id="title-error" class="error-msg"></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label">작성자</td>
-                    <td class="data">
-                        <input type="text" name="writer" id="writer" class="input-text">
-                        <p id="writer-error" class="error-msg"></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label">내용</td>
-                    <td class="data">
-                        <textarea name="content" id="content" cols="30" rows="10" class="input-textarea"></textarea>
-                    </td>
-                </tr>
-            </table>
+            <!-- 게시글 입력 -->
+            <!-- 요청 데이터에 file 이 있다면, 인코딩을 하지 않도록
+                 enctype="multipart/form-data" 로 설정해준다.
+             -->
+            <form action="http://192.168.0.200:8080/api/board" method="post" id="form" enctype="multipart/form-data">
+                <table class="board">
+                    <tr>
+                        <td class="label">제목</td>
+                        <td class="data">
+                            <input type="text" name="title" id="title" class="input-text">
+                            <p id="title-error" class="error-msg"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">작성자</td>
+                        <td class="data">
+                            <input type="text" name="writer" id="writer" class="input-text">
+                            <p id="writer-error" class="error-msg"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">내용</td>
+                        <td class="data">
+                            <textarea name="content" id="content" cols="30" rows="10" class="input-textarea"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">파일</td>
+                        <td class="data">
+                            <input type="file" name="file" id="file" multiple>
+                        </td>
+                    </tr>
+                </table>
+            </form>
 
             <div class="btn-box">
                 <div class="item">
@@ -161,29 +172,41 @@
                 return
             }
 
+            // 폼 요청
+            // let form = $('#form')
+            // form.submit()               // 폼 제출
+
             // 등록 요청
             const url = 'http://192.168.0.200:8080/api/board'
+
+            let formData = new FormData()
+
             let title = $('#title').val()
             let writer = $('#writer').val()
             let content = $('#content').val()
+            let file = $('#file')[0]
+            let files = file.files
 
-            // 유효성 검사
-            if( title.length > 20 ) {
-                alert('제목은 20 자까지 가능합니다.')
-                return
+            formData.append('title', title)
+            formData.append('writer', writer)
+            formData.append('content', content)
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('file[]', files[i])
             }
 
-            let data = {
-                'title' : title,
-                'writer' : writer,
-                'content' : content
-            }
+            // let data = {
+            //     'title' : title,
+            //     'writer' : writer,
+            //     'content' : content,
+            // }
 
             $.ajax({
                 url : url,
                 type : 'post',
-                data : JSON.stringify(data),
-                contentType     : 'application/json',
+                data : formData,            // JSON.stringify(data),
+                contentType     : false,    // 'application/json',
+                processData     : false,    // 데이터를 쿼리 문자열로 변환 여부
                 success : function(response) {
                     // alert(response)
                     if( response == 'SUCCESS' ) {

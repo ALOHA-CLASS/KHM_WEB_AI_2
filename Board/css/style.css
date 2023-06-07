@@ -108,6 +108,13 @@ header .menu nav ul li:hover::before  {
    color: white;
    text-align: center;
 }
+
+/* 작은 버튼 */
+.btn.btn-sm {
+   min-width: 60px;
+   min-height: 32px;
+   line-height: 32px;
+}
  
 /* 제목 영역 */
 .main-title { margin-bottom: 40px; }
@@ -127,7 +134,7 @@ header .menu nav ul li:hover::before  {
    border-bottom: 1px solid gray;
    text-align: center;
 }
-.board tr:hover {
+.board.hover tr:hover {
    background-color: lightblue;
    font-weight: bold;
 }
@@ -241,3 +248,60 @@ header .menu nav ul li:hover::before  {
    font-weight: bold;
    color: white;
 } 
+
+
+
+/* 댓글 */
+#comment-list {
+   margin-bottom: 40px;
+}
+#comment-list .comment-box {
+   width: 400px;
+   border: 1px solid black;
+   padding: 12px;
+}
+#comment-list .comment-box .top {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 20px;
+}
+#comment-list .comment-box .bottom {}
+#comment-list .comment-box .comment-writer { font-weight: bold; }
+#comment-list .comment-box .comment-date { color: #333; font-size: 12px; }
+#comment-list .comment-box .comment-content {}
+
+#comment-list .comment-box .etc-box {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 12px 0;
+}
+
+.input-box {
+   border-top: 1px solid black;
+   border-bottom: 1px solid black;
+   margin: 20px 0;
+   padding: 20px 0;
+}
+.input-box .top {}
+.input-box .comment-input {
+   width: 400px;
+}
+.input-box .comment-input input {
+   min-height: 48px;
+   font-size: 18px;
+   padding-left: 8px;
+}
+.input-box .comment-input textarea {
+   font-size: 18px;
+   padding-left: 8px;
+   resize: none;
+   width: 100%;
+}
+
+.input-box .btn-box {
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
