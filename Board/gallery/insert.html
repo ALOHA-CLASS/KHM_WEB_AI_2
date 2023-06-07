@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갤러리</title>
+    <!-- reset -->
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <!-- 로그인 | 회원가입 -->
+        <div class="util"></div>
+
+        <!-- 메인 메뉴 -->
+        <div class="menu">
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../board/list.html">Board</a></li>
+                    <li><a href="../gallery/list.html">Gallery</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 메인 -->
+    <section class="main container">
+        <div class="inner">
+            <h2>갤러리</h2>
+
+            <form action="http://192.168.0.200:8080/api/board" method="post" id="form" enctype="multipart/form-data">
+                <table class="board">
+                    <tr>
+                        <td class="label">썸네일</td>
+                        <td class="data">
+                            <div class="dropzone">
+                                <input type="file" id="thumbnail" >
+                                <a href="javascript:;" class="btn btn-sm btn-thumb-remove hide">삭제</a>
+                                <div class="drop-img flex col main-center sub-center">
+                                    <div class="upload-box">
+                                        <h3 class="mb-20">이미지를 드래그 하세요.</h3>
+                                        <label for="thumbnail" class="btn">업로드</label>
+                                    </div>
+                                    <div class="img-box hide"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">제목</td>
+                        <td class="data">
+                            <input type="text" name="title" id="title" class="input-text">
+                            <p id="title-error" class="error-msg"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">작성자</td>
+                        <td class="data">
+                            <input type="text" name="writer" id="writer" class="input-text">
+                            <p id="writer-error" class="error-msg"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">내용</td>
+                        <td class="data">
+                            <textarea name="content" id="content" cols="30" rows="10" class="input-textarea"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">파일</td>
+                        <td class="data">
+                            <input type="file" name="file" id="file" multiple>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+           
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="../js/jquery-3.7.0.min.js"></script>
+
+    <script>
+
+        // 드랍존에 이미지를 올렸을 때
+        $('.dropzone').on('dragover', function(e) {
+            e.preventDefault()          // 이벤트의 기본 액션 방지
+            $(this).addClass('over')
+            
+        })
+
+        // 드랍존에서 이미지가 벗어날 때
+        $('.dropzone').on('dragleave', function(e) {
+            e.preventDefault()         
+            $(this).removeClass('over')
+
+        })
+
+        // 드랍존에서 이미지를 놓았을 때
+        $('.dropzone').on('drop', function(e) {
+            e.preventDefault()  
+            
+            $(this).removeClass('over')
+            
+            // 파일정보 처리작업
+            // console.log(e)
+            let fileList = e.originalEvent.dataTransfer.files
+            // console.log(fileList);
+
+            // 드래그앤드랍한 파일을 input(file) 태그에 넣어줌
+            $('#thumbnail').val(null)
+            $('#thumbnail')[0].files = fileList
+
+            for (let i = 0; i < fileList.length; i++) {
+                const file = fileList[i];
+
+                let reader = new FileReader()
+
+                // 파일 로드 시
+                reader.onload = function(event) {
+                    let source =  event.target.result   // 파일 데이터
+                    let img = `<img src="${source}" >`
+                    $('.btn-thumb-remove').show()
+                    $('.drop-img .img-box').show().html(img)
+                    $('.drop-img .upload-box').hide()
+
+                }
+                
+                reader.readAsDataURL(file)
+            }
+
+        })
+
+        // 파일 변경 이벤트
+        $('#thumbnail').on('change', function(e) {
+            let fileList = e.target.files
+
+            for (let i = 0; i < fileList.length; i++) {
+                const file = fileList[i];
+
+                let reader = new FileReader() 
+
+                reader.onload = function(event) {
+                    let source =  event.target.result   // 파일 데이터
+                    let img = `<img src="${source}" >`
+                    $('.btn-thumb-remove').show()
+                    $('.drop-img .img-box').show().html(img)
+                    $('.drop-img .upload-box').hide()
+                }
+                
+                reader.readAsDataURL(file)
+            }
+        })
+
+
+        // 썸네일 삭제 - 클릭 이벤트
+        $('.btn-thumb-remove').on('click', function() {
+            $('#thumbnail').val(null)
+            $('.upload-box').show()
+            $('.img-box').empty().hide()
+            $('.btn-thumb-remove').hide()
+        })
+
+
+    </script>
+</body>
+</html>

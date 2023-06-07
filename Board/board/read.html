@@ -169,37 +169,265 @@
                     for (let i = 0; i < commentList.length; i++) {
                         let comment = commentList[i]
 
-                        let commentBox = `<div class="comment-box">
-                                            <div class="top">
-                                                <div class="item">
-                                                    <span class="comment-writer">${comment.writer}</span>
+                        let date = new Date(comment.regDate);
+                        let regDate = date.toISOString().split("T")[0];
+                        let regTime = date.toISOString().split("T")[1];
+                        regTime = regTime.split(".")[0]
+
+                        // 계층번호
+                        let depthNo = comment.depthNo
+
+                        let commentBox = `<div class="comment-box" style="margin-left: ${depthNo * 60}px;">
+                                            <div class="data-box">
+                                                <div class="top">
+                                                    <div class="item">
+                                                        <span class="comment-writer">${comment.writer}</span>
+                                                    </div>
+                                                    <div class="item">
+                                                        <a href="javascript:;" class="btn btn-sm btn-comment-update" data="${comment.commentNo}">수정</a>
+                                                        <a href="javascript:;" class="btn btn-sm btn-comment-delete" data="${comment.commentNo}">삭제</a>
+                                                    </div>
                                                 </div>
-                                                <div class="item">
-                                                    <a href="javascript:;" class="btn btn-sm" id="btn-comment-update">수정</a>
-                                                    <a href="javascript:;" class="btn btn-sm" id="btn-comment-delete">삭제</a>
+                                                <div class="bottom">
+                                                    <p class="comment-content">${comment.content}</p>
+                                                    <div class="etc-box">
+                                                        <span class="comment-date">${regDate} ${regTime}</span>
+                                                        <a href="javascript:;" class="btn btn-sm btn-reply" data="${comment.commentNo}">답글</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="bottom">
-                                                <p class="comment-content">
-                                                    ${comment.content}
-                                                </p>
-                                                <div class="etc-box">
-                                                    <span class="comment-date">${comment.regDate}</span>
-                                                    <a href="javascript:;" class="btn btn-sm">답글</a>
-                                                </div>
-                                            </div>
+                                            <div class="edit-box"></div>
                                         </div>
                                         `
                         commentData += commentBox
                     }
 
                     $('#comment-list').html(commentData)
+
+                    // 이벤트 추가
+                    initCommentEvent()
+                    
                 },
                 error : function(error) {
 
                 }
             })
         }
+
+        // 댓글 [수정][삭제][답글] - 이벤트 추가
+        function initCommentEvent() {
+
+            // 댓글 [수정] 버튼 클릭 이벤트
+            $('.btn-comment-update').on('click', function() {
+
+                // 답글 작성 UI 초기화
+                $('.reply-box').remove()
+
+                // 작성자, 내용 
+                let btn = $(this)
+                let commentNo = btn.attr('data')        // 댓글번호
+                let commentBox = btn.parents('.comment-box')
+                let commentWriter = commentBox.find('.comment-writer')
+                let commentContent = commentBox.find('.comment-content')
+                let writer = commentWriter.text()
+                let content = commentContent.text()
+
+                console.log( btn.parent() )                         // 부모요소
+                console.log( btn.parents('.comment-box') )          // 특정 상위요소
+                console.log( commentBox.children() )                // 자식요소
+                console.log( commentBox.find('.comment-writer') )   // 특정 하위요소
+                console.log(writer);
+                console.log(content);
+
+                // 수정 중인 다른 댓글 UI 초기화
+                $('.data-box').show()
+                $('.edit-box').empty()
+
+                // 댓글 보기 UI 숨김
+                commentBox.find('.data-box').hide()
+
+                // 댓글 수정 UI 추가
+                let editBox = `<div class="top">
+                                    <div class="item">
+                                        <input type="text" id="input-update-writer" value="${writer}">
+                                    </div>
+                                    <div class="item">
+                                        
+                                    </div>
+                                </div>
+                                <div class="bottom">
+                                    <textarea id="input-update-content" cols="40" rows="5">${content}</textarea>
+                                    <div class="etc-box">
+                                        <a href="javascript:;" id="btn-comment-update" class="btn btn-sm" data="${commentNo}">수정</a>
+                                        <a href="javascript:;" id="btn-comment-delete" class="btn btn-sm" >취소</a>
+                                    </div>
+                                </div>
+                                `
+
+                commentBox.find('.edit-box').html(editBox)
+
+
+                // 취소 버튼 클릭
+                $('#btn-comment-delete').on('click', function() {
+                    $('.comment-box .data-box').show()
+                    $('.comment-box .edit-box').empty()
+                })
+
+
+                // 수정 버튼 클릭
+                $('#btn-comment-update').on('click', function() {
+                    let url = 'http://192.168.0.200:8080/api/comment'
+
+                    let data = {
+                        commentNo : commentNo,
+                        writer : $('#input-update-writer').val(),
+                        content : $('#input-update-content').val(),
+                    }
+
+                    $.ajax({
+                        url : url,
+                        type : 'put',
+                        data : JSON.stringify(data),
+                        contentType : 'application/json',
+                        success : function(response) {
+                            let result = response
+
+                            if( result == 'SUCCESS' ) {
+                                alert('댓글 수정이 완료되었습니다.')
+                                // 댓글 목록 갱신
+                                getCommentList()
+
+                            }
+                        },
+                        error : function(error) {
+
+                        }
+                    })
+
+
+                })
+
+
+            })
+
+
+            // 댓글 [삭제] 버튼 클릭 이벤트
+            $('.btn-comment-delete').on('click', function() {
+
+                let check = confirm('정말로 삭제하시겠습니까?')
+                if( !check )
+                    return
+
+                let commentNo = $(this).attr('data')
+
+                const url = 'http://192.168.0.200:8080/api/comment'
+                let data = {
+                    commentNo : commentNo
+                }
+
+                $.ajax({
+                    url : url,
+                    type : 'delete',
+                    data : JSON.stringify(data),
+                    contentType : 'application/json',
+                    success : function(response) {
+                        let result = response
+
+                        if( result == 'SUCCESS' ) {
+                            alert('댓글 삭제가 완료되었습니다.')
+                            // 댓글 목록 갱신
+                            getCommentList()
+                        }
+                    },
+                    error : function(error) {
+
+                    }
+                })
+
+            })
+
+
+            // 댓글 [답글] 클릭 이벤트
+            $('.btn-reply').on('click', function() {
+
+                // 댓글 수정 상태를 초기화
+                $('.data-box').show()
+                $('.edit-box').empty()
+
+                // 부모 댓글 번호
+                let superNo = $(this).attr('data')
+
+                // 답글 작성 UI 추가
+                let replyBox = `<div class="comment-box reply-box">
+                                    <div class="edit-box">
+                                        <div class="top">
+                                            <div class="item">
+                                                <input type="text" id="input-reply-writer" placeholder="작성자">
+                                            </div>
+                                            <div class="item">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="bottom">
+                                            <textarea id="input-reply-content" cols="40" rows="5" placeholder="댓글을 입력해주세요"></textarea>
+                                            <div class="etc-box">
+                                                <a href="javascript:;" id="btn-reply-insert" class="btn btn-sm">등록</a>
+                                                <a href="javascript:;" id="btn-reply-cancel" class="btn btn-sm">취소</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                `
+
+                let btn = $(this)
+                let commentBox = btn.parents('.comment-box')
+                $('.reply-box').remove()                // 답글 입력 상자 초기화
+                commentBox.after( $(replyBox) )
+
+
+                // 답글 [등록] 버튼 클릭 이벤트
+                $('#btn-reply-insert').on('click', function() {
+
+                    let url = 'http://192.168.0.200:8080/api/comment/reply'
+
+                    let data = {
+                        superNo : superNo,                          // 부모 댓글번호
+                        writer : $('#input-reply-writer').val(),     
+                        content : $('#input-reply-content').val(), 
+                    }
+
+                    $.ajax({
+                        url : url,
+                        type : 'post',
+                        data : JSON.stringify(data),
+                        contentType : 'application/json',
+                        success : function(response) {
+                            let result = response
+
+                            if( result == 'SUCCESS' ) {
+                                alert('답글 등록이 완료되었습니다.')
+                                // 댓글 목록 갱신
+                                getCommentList()
+                            }
+                        },
+                        error : function(error) {
+
+                        }
+                    })
+
+
+                })
+
+
+                // 댓글 [답글] 취소 버튼 클릭 이벤트
+                $('#btn-reply-cancel').on('click', function() {
+                    $('.reply-box').remove()
+                })
+
+            })
+
+        }
+ 
 
         // 댓글 등록
         function insertComment( writer, content ) {
