@@ -59,8 +59,8 @@
                     <a href="list.html" class="btn">목록</a>
                 </div>
                 <div class="item">
-                    <a href="javascript:;" class="btn" id="btn-update">수정</a>
-                    <a href="javascript:;" class="btn" id="btn-delete">삭제</a>
+                    <a href="javascript:;" class="btn btn-update">수정</a>
+                    <a href="javascript:;" class="btn btn-delete">삭제</a>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
         })
 
         // 수정 버튼 - 클릭 이벤트
-        $('#btn-update').on('click', function() {
+        $('.btn-update').on('click', function() {
 
             // 수정 요청
             const url = 'http://192.168.0.200:8080/api/board'

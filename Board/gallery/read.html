@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 읽기</title>
+    <title>갤러리 읽기</title>
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -29,13 +29,13 @@
         <div class="inner">
             <!-- 제목 영역 -->
             <div class="main-title">
-                <h1>게시글 읽기</h1>
+                <h1>갤러리 읽기</h1>
             </div>
 
             <div class="info-box">
                 <div class="item">
                     <span class="label">조회수 : </span>
-                    <span id="board-view" class="board-view">0</span>
+                    <span id="gallery-view" class="gallery-view">0</span>
                 </div>
             </div>
 
@@ -49,24 +49,31 @@
                 </div>
             </div>
     
-            <!-- 게시글 목록 -->
+            <!-- 갤러리 목록 -->
             <table class="board">
+                <tr>
+                    <td class="label">썸네일</td>
+                    <td class="data">
+                        <div id="gallery-img"></div>
+                        <div id="file-info"></div>
+                    </td>
+                </tr>
                 <tr>
                     <td class="label">제목</td>
                     <td class="data">
-                        <h5 id="board-title"></h5>
+                        <h5 id="gallery-title"></h5>
                     </td>
                 </tr>
                 <tr>
                     <td class="label">작성자</td>
                     <td class="data">
-                        <h5 id="board-writer"></h5>
+                        <h5 id="gallery-writer"></h5>
                     </td>
                 </tr>
                 <tr>
                     <td class="label">내용</td>
                     <td class="data">
-                        <p id="board-content">
+                        <p id="gallery-content">
                            
                         </p>
                     </td>
@@ -82,26 +89,7 @@
 
             <!-- 댓글 목록 -->
             <div id="comment-list">
-                <!-- <div class="comment-box">
-                    <div class="top">
-                        <div class="item">
-                            <span class="comment-writer">작성자</span>
-                            <span class="comment-date">2023-06-05</span>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:;" class="btn btn-sm" id="btn-comment-update">수정</a>
-                            <a href="javascript:;" class="btn btn-sm" id="btn-comment-delete">삭제</a>
-                        </div>
-                    </div>
-                    <div class="bottom">
-                        <p class="comment-content">
-                            안녕하세요 댓글입니다....
-                        </p>
-                        <div class="etc-box">
-                            <a href="javascript:;" class="btn btn-sm">답글</a>
-                        </div>
-                    </div>
-                </div> -->
+                
             </div>
 
 
@@ -141,12 +129,12 @@
     <script>
         // 현재 URL 가져오기
         const urlParams = new URLSearchParams(location.search)
-        // ?boardNo=100   (100 <-- 글번호 가져오기)
-        let boardNo = urlParams.get('boardNo')
+        // ?galleryNo=100   (100 <-- 글번호 가져오기)
+        let galleryNo = urlParams.get('galleryNo')
 
-        /* 게시글 정보 - 데이터 요청 */
-        if( boardNo != null ) {
-            getBoard()
+        /* 갤러리 정보 - 데이터 요청 */
+        if( galleryNo != null ) {
+            getGallery()
             getFileList()
             getCommentList()
         }
@@ -154,7 +142,7 @@
         // 댓글 목록 조회
         function getCommentList() {
 
-            const url = 'http://192.168.0.200:8080/api/board/comment/' + boardNo
+            const url = 'http://192.168.0.200:8080/api/gallery/comment/' + galleryNo
 
             $.ajax({
                 url : url,
@@ -162,9 +150,6 @@
                 success : function(response) {
                     let commentList = response
 
-                    console.log(commentList)
-
-                    // 여기서 부터...
                     let commentData = ''
                     for (let i = 0; i < commentList.length; i++) {
                         let comment = commentList[i]
@@ -231,13 +216,6 @@
                 let commentContent = commentBox.find('.comment-content')
                 let writer = commentWriter.text()
                 let content = commentContent.text()
-
-                console.log( btn.parent() )                         // 부모요소
-                console.log( btn.parents('.comment-box') )          // 특정 상위요소
-                console.log( commentBox.children() )                // 자식요소
-                console.log( commentBox.find('.comment-writer') )   // 특정 하위요소
-                console.log(writer);
-                console.log(content);
 
                 // 수정 중인 다른 댓글 UI 초기화
                 $('.data-box').show()
@@ -435,7 +413,7 @@
             const url = 'http://192.168.0.200:8080/api/comment'
 
             let data = {
-                'parentNo'   : boardNo,
+                'parentNo'   : galleryNo,
                 'writer'    : writer,
                 'content'   : content,
             }
@@ -465,21 +443,27 @@
             })
         }
 
-        // 게시글 조회
-        function getBoard() {
+        // 갤러리 조회
+        function getGallery() {
 
-            const url = 'http://192.168.0.200:8080/api/board/' + boardNo
-
+            const url = 'http://192.168.0.200:8080/api/gallery/' + galleryNo
+            let fileUrl = 'http://192.168.0.200:8080/api/file'
             $.ajax({
                 url : url,
                 type : 'get',
                 success : function(response) {
-                    let board = response
+                    let gallery = response
 
-                    $('#board-title').text(board.title)
-                    $('#board-writer').text(board.writer)
-                    $('#board-content').text(board.content)
-                    $('#board-view').text(board.views)
+                    console.log(gallery)
+
+                    let img = `<img src="${fileUrl}/img/${gallery.fileNo}" >`
+                    let down = `<a href="${fileUrl}/${gallery.fileNo}">${gallery.originName}</a>`
+                    $('#gallery-img').html(img)
+                    $('#file-info').html(down)
+                    $('#gallery-title').text(gallery.title)
+                    $('#gallery-writer').text(gallery.writer)
+                    $('#gallery-content').text(gallery.content)
+                    $('#gallery-view').text(gallery.views)
 
                 },
                 error : function(error) {
@@ -492,7 +476,7 @@
         // 파일 목록 조회
         function getFileList() {
 
-            const url = 'http://192.168.0.200:8080/api/board/file/' + boardNo
+            const url = 'http://192.168.0.200:8080/api/gallery/file/' + galleryNo
 
             $.ajax({
                 url : url,
@@ -575,9 +559,9 @@
                 return
 
             // 삭제 요청
-            const url = 'http://192.168.0.200:8080/api/board'
+            const url = 'http://192.168.0.200:8080/api/gallery'
             let data = {
-                'boardNo' : boardNo
+                'galleryNo' : galleryNo
             }
 
             $.ajax({
@@ -603,7 +587,7 @@
         // 수정 버튼 - 클릭 이벤트
         $('.btn-update').on('click', function() {
 
-            location.href = 'update.html?boardNo=' + boardNo
+            location.href = 'update.html?galleryNo=' + galleryNo
 
         })
 

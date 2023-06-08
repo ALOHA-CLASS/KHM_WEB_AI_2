@@ -423,7 +423,22 @@ header .menu nav ul li:hover::before  {
 .mr-40 { margin-right: 40px; }
 .mr-50 { margin-right: 50px; }
 
+.w-100 { width: 100px !important; }
+.w-200 { width: 200px !important; }
+.w-300 { width: 300px !important; }
+.w-400 { width: 400px !important; }
+.w-500 { width: 500px !important; }
 
+.w-100p { width: 100% !important; }
+.w-90p { width: 90% !important; }
+.w-80p { width: 80% !important; }
+.w-70p { width: 70% !important; }
+.w-60p { width: 60% !important; }
+.w-50p { width: 50% !important; }
+.w-40p { width: 40% !important; }
+.w-30p { width: 30% !important; }
+.w-20p { width: 20% !important; }
+.w-10p { width: 10% !important; }
 
 
 
@@ -464,7 +479,6 @@ img { width: 100%; }
    font-size: 20px;
 }
 
-
 .dropzone.over {
    background-color: royalblue;
    color: white;
@@ -481,15 +495,16 @@ img { width: 100%; }
    height: 100%;
 }
 
+
+
+
 .dropzone img {
    width: 100%;
    height: 100%;
    object-fit: contain;
 }
 
-
 .dropzone input { display: none; }
-
 
 .dropzone .btn-thumb-remove {
    position: absolute;
