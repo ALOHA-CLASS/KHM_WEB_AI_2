@@ -36,7 +36,7 @@
             </div>
 
             <!-- 그리드 -->
-            <div class="grid col-4 col-gap-20 row-gap-20" id="gallery-list">
+            <div class="grid col-4 col-md-3 col-sm-2 col-xs-1 col-gap-20 row-gap-20" id="gallery-list">
 
                 <!-- item -->
                 <!-- <div class="item">
@@ -107,7 +107,7 @@
                         const date = new Date(gallery.regDate)
                         const regDate = date.toISOString().split("T")[0]
 
-                        let item = `<div class="item w-200">
+                        let item = `<div class="item w-auto">
                                         <div class="card round">
                                             <div class="img-box">
                                                 <a href="read.html?galleryNo=${gallery.galleryNo}">

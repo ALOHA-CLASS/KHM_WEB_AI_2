@@ -9,7 +9,7 @@ a {text-decoration: inherit; color: inherit;}
 li {list-style: none;}
 img {vertical-align: middle;}
 a img {border: none;}
-address, em, i {font-style: normal;}
+/* address, em, i {font-style: normal;} */
 a:focus {outline: none}
 button:focus {outline: none}
 
