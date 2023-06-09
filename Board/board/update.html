@@ -9,6 +9,20 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+    <!-- 사이드바 -->
+    <aside id="sidebar">
+        <div class="top flex main-end">
+            <a href="javascript:;" id="btn-close">
+                <span class="material-symbols-outlined">close</span>
+            </a>
+        </div>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../board/list.html">Board</a></li>
+            <li><a href="../gallery/list.html">Gallery</a></li>
+        </ul>
+    </aside>
+
     <header>
         <!-- 로그인 | 회원가입 -->
         <div class="util"></div>
@@ -16,10 +30,18 @@
         <!-- 메인 메뉴 -->
         <div class="menu">
             <nav>
-                <ul>
+                <ul class="pc">
                     <li><a href="../index.html">Home</a></li>
                     <li><a href="../board/list.html">Board</a></li>
                     <li><a href="../gallery/list.html">Gallery</a></li>
+                </ul>
+                <ul class="mobile">
+                    <li>
+                        <a href="../index.html"><span class="material-symbols-outlined">home</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" id="btn-menu"><span class="material-symbols-outlined">menu</span></a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -69,6 +91,7 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="../js/jquery-3.7.0.min.js"></script>
+    <script src="../js/main.js"></script>
     <script>
         // 현재 URL 가져오기
         const urlParams = new URLSearchParams(location.search)
